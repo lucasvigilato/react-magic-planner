@@ -18,22 +18,30 @@ function App() {
   // Função para adicionar uma carta ao deck
   const handleAddCard = (cardToAdd) => {
     const isBasicLand = cardToAdd.type_line.includes('Basic Land');
-    const cardExists = !isBasicLand && deck.some(card => card.id === cardToAdd.id);
+    const existingCardEntry = deck.find(entry => entry.card.id === cardToAdd.id);
 
-    if (cardExists) {
-      alert(`${cardToAdd.name} ja está no deck!`);
-      return;
+    if (existingCardEntry) {
+      if (isBasicLand) {
+        setDeck(
+          deck.map(entry =>
+            entry.card.id === cardToAdd.id
+            ? { ...entry, quantity: entry.quantity + 1}
+            : entry
+          )
+        );
+      } else {
+        alert(`${cardToAdd.name} ja está no seu deck.`);
+      }
+    } else {
+      setDeck(currentDeck => [...currentDeck, {card: cardToAdd, quantity: 1}]);
     }
-
-    setDeck(currentDeck => [...currentDeck, cardToAdd]);
   };
 
   // Função para remover uma carta do deck
   const handleRemoveCard = (cardIdToRemove) => {
-    setDeck(currentDeck => currentDeck.filter(card => card.id !== cardIdToRemove));
+    setDeck(currentDeck => currentDeck.filter(entry => entry.card.id !== cardIdToRemove));
   };
   
-
   return (
     <div className={styles.appContainer}>
       <h1 className={styles.mainTitle}>Magic Planner</h1>

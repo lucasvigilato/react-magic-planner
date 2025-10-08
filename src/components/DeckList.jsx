@@ -8,10 +8,12 @@ function DeckList({ deck, onRemoveCard }) {
                 <p>Seu deck está vazio. Adicione cartas acima!</p>
             ) : (
                 <ul className={styles.deckList}>
-                    {deck.map(card => (
-                        <li key={card.id} className={styles.deckItem}>
-                            <span className={styles.cardName}>{card.name}</span>
-                            <button onClick={() => onRemoveCard(card.id)} className={styles.removeButton}>
+                    {deck.map(entry => (
+                        <li key={entry.card.id} className={styles.deckItem}>
+                            <span className={styles.cardName}>
+                                {entry.quantity}x {entry.card.name}
+                            </span>
+                            <button onClick={() => onRemoveCard(entry.card.id)} className={styles.removeButton}>
                                 X
                             </button>
                         </li>
