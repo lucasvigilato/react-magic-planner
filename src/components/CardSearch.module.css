@@ -1,0 +1,49 @@
+.search.Container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.searchInput {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+.searchButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.searchButton:hover {
+    background-color: #0056b3;
+}
+
+.searchButton:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.resultContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cardImage {
+    max-width: 300px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.addButton {
+    composes: searchButton;
+}

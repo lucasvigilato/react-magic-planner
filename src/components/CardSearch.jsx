@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import styles from './CardSearch.module.css';
+
 function CardSearch({ onCardAdd }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [cardData, setCardData] = useState(null);
@@ -28,14 +30,15 @@ function CardSearch({ onCardAdd }) {
 
     return (
         <div>
-            <form onSubmit={handleSearch}>
+            <form onSubmit={handleSearch} className={styles.searchContainer}>
                 <input
                     type='text'
                     placeholder='Digite o nome da carta...'
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
+                    className={styles.searchInput}
                 />
-                <button type='submit' disable={isLoading}>
+                <button type='submit' disable={isLoading} className={styles.searchButton}>
                     {isLoading ? 'Buscando...' : 'Buscar Carta'}
                 </button>
             </form>
@@ -44,10 +47,18 @@ function CardSearch({ onCardAdd }) {
             {isLoading && <p>Carregando...</p>}
             {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
             {cardData && (
-                <div>
+                <div className={styles.resultContainer}>
                     <h2>{cardData.name}</h2>
-                    <img src={cardData.image_uris.normal} alt={cardData.name} />
-                    <button type='button' onClick={() => onCardAdd(cardData)}>
+                    <img
+                    src={cardData.image_uris.normal} 
+                    alt={cardData.name} 
+                    className={styles.cardImage}
+                    />
+                    <button
+                    type='button'
+                    onClick={() => onCardAdd(cardData)}
+                    className={styles.addButton}
+                    >
                         Adicionar ao Deck
                     </button>
                 </div>
