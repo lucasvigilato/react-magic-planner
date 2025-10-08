@@ -38,7 +38,7 @@ function CardSearch({ onCardAdd }) {
                     onChange={e => setSearchTerm(e.target.value)}
                     className={styles.searchInput}
                 />
-                <button type='submit' disable={isLoading} className={styles.searchButton}>
+                <button type='submit' disabled={isLoading} className={styles.searchButton}>
                     {isLoading ? 'Buscando...' : 'Buscar Carta'}
                 </button>
             </form>
