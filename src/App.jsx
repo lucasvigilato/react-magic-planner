@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
 import styles from './App.module.css';
 
 function App() {
-  const [deck, setDeck] = useState([]);
+  const getInitialDeck = () => {
+    const savedDeck = localStorage.getItem('magicDeck');
+    return savedDeck ? JSON.parse(savedDeck) : [];
+  };
+
+  const [deck, setDeck] = useState(getInitialDeck());
+
+  useEffect(() => {
+    localStorage.setItem('magicDeck', JSON.stringify(deck));
+  }, [deck]);
 
   // Função para adicionar uma carta ao deck
   const handleAddCard = (cardToAdd) => {
