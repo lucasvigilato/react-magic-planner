@@ -1,22 +1,39 @@
 import { useState } from 'react';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
+import styles from './App.module.css';
 
 function App() {
   const [deck, setDeck] = useState([]);
 
+  // Função para adicionar uma carta ao deck
   const handleAddCard = (cardToAdd) => {
+    const isBasicLand = cardToAdd.type_line.includes('Basic Land');
+    const cardExists = !isBasicLand && deck.some(card => card.id === cardToAdd.id);
+
+    if (cardExists) {
+      alert(`${cardToAdd.name} ja está no deck!`);
+      return;
+    }
+
     setDeck(currentDeck => [...currentDeck, cardToAdd]);
   };
 
+  // Função para remover uma carta do deck
+  const handleRemoveCard = (cardIdToRemove) => {
+    setDeck(currentDeck => currentDeck.filter(card => card.id !== cardIdToRemove));
+  };
+  
+
   return (
-    <div>
-      <h1>Magic Planner</h1>
-      {/* Passamos a função de adicionar como uma "prop" para o CardSearch */}
+    <div className={styles.appContainer}>
+      <h1 className={styles.mainTitle}>Magic Planner</h1>
+      
       <CardSearch onCardAdd={handleAddCard} />
-      <hr />
-      {/* Passamos a lista do deck como uma "prop" para o DeckList */}
-      <DeckList deck={deck} />
+
+      <hr className={styles.divider} />
+      
+      <DeckList deck={deck} onRemoveCard={handleRemoveCard}/>
     </div>
   );
 }
