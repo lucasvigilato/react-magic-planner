@@ -34,3 +34,29 @@
 .removeButton:hover {
     background-color: #c82333;
 }
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantityText {
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+.quantityButton {
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.quantityButton:hover {
+    background-color: #dee2e6;
+}
