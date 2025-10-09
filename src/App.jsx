@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import DeckStats from './components/DeckStats';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
+import DeckIO from './components/DeckIO';
 
 import styles from './App.module.css';
 
@@ -36,7 +37,6 @@ function App() {
 
   console.log('Curva de Mana Calculada (sem terrenos):', manaCurve);
 
-  // Função para adicionar uma carta ao deck
   const handleAddCard = (cardToAdd) => {
     const isBasicLand = cardToAdd.type_line.includes('Basic Land');
     const existingCardEntry = deck.find(entry => entry.card.id === cardToAdd.id);
@@ -52,7 +52,6 @@ function App() {
     }
   };
 
-  // Função para remover uma carta do deck
   const handleRemoveCard = (cardIdToRemove) => {
     setDeck(currentDeck => currentDeck.filter(entry => entry.card.id !== cardIdToRemove));
   };
@@ -87,9 +86,15 @@ function App() {
     });
   };
 
+  const handleSetDeck = (newDeck) => {
+    setDeck(newDeck);
+  }
+
   return (
     <div className={styles.appContainer}>
       <h1 className={styles.mainTitle}>Magic Planner</h1>
+
+      <DeckIO deck={deck} onImportDeck={handleSetDeck} />
       
       <CardSearch onCardAdd={handleAddCard} />
       <hr className={styles.divider} />

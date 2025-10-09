@@ -8,10 +8,15 @@ function DeckList({ deck, onRemoveCard, onUpdateQuantity }) {
         <p>Seu deck está vazio. Adicione cartas acima!</p>
       ) : (
         <div className={styles.deckList}>
-          {deck.map(entry => (
+          {deck.map(entry => {
+            const imageUrl = entry.card.image_uris
+              ? entry.card.image_uris.small
+              : entry.card.card_faces[0].image_uris.small;
+
+            return (
             <div key={entry.card.id} className={styles.cardItem}>
               <img
-                src={entry.card.image_uris.small}
+                src={imageUrl}
                 alt={entry.card.name}
                 className={styles.cardImage}
               />
@@ -33,7 +38,8 @@ function DeckList({ deck, onRemoveCard, onUpdateQuantity }) {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
