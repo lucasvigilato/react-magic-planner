@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import DeckStats from './components/DeckStats';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
+
 import styles from './App.module.css';
 
 function App() {
+
   const getInitialDeck = () => {
     const savedDeck = localStorage.getItem('magicDeck');
     return savedDeck ? JSON.parse(savedDeck) : [];
@@ -14,6 +17,24 @@ function App() {
   useEffect(() => {
     localStorage.setItem('magicDeck', JSON.stringify(deck));
   }, [deck]);
+
+  
+  const manaCurve = deck
+    .filter(entry => !entry.card.type_line.includes('Land'))
+    .reduce((acc, entry) => {
+      const cmc = Math.floor(entry.card.cmc);
+      const quantity = entry.quantity;
+
+      if (!acc[cmc]) {
+        acc[cmc] = 0;
+      }
+
+      acc[cmc] += quantity;
+
+      return acc;
+    }, {});
+
+  console.log('Curva de Mana Calculada (sem terrenos):', manaCurve);
 
   // Função para adicionar uma carta ao deck
   const handleAddCard = (cardToAdd) => {
@@ -71,9 +92,11 @@ function App() {
       <h1 className={styles.mainTitle}>Magic Planner</h1>
       
       <CardSearch onCardAdd={handleAddCard} />
-
       <hr className={styles.divider} />
       
+      <DeckStats manaCurve={manaCurve} />
+      <hr className={styles.divider} />
+
       <DeckList 
         deck={deck}
         onRemoveCard={handleRemoveCard}
