@@ -6,30 +6,36 @@
 
 .chartContainer {
   display: flex;
-  align-items: flex-end; 
-  gap: 20px; 
-  height: 200px; 
+  align-items: flex-end;
+  gap: 20px;
+  height: 200px;
   padding: 10px;
-  border-left: 2px solid #adb5bd; 
-  border-bottom: 2px solid #adb5bd; 
+  border-left: 2px solid #adb5bd;
+  border-bottom: 2px solid #adb5bd;
   margin-top: 10px;
 }
 
 .barWrapper {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  width: 45px; 
-  height: 100%; 
-  justify-content: flex-end; 
+  width: 45px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.countLabel {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }
 
 .bar {
   width: 100%;
-  background-color: #339af0; 
+  background-color: #339af0;
   border-radius: 2px 2px 0 0;
   transition: height 0.3s ease-in-out;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .bar:hover {
@@ -41,4 +47,22 @@
   font-size: 14px;
   font-weight: 500;
   color: #495057;
+}
+
+.summaryContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 14px;
+  justify-content: center;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.summaryItem {
+  background-color: #f1f3f5;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
 }
