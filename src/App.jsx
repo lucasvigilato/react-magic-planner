@@ -34,8 +34,21 @@ function App() {
 
       return acc;
     }, {});
+    console.log('Curva de Mana Calculada (sem terrenos):', manaCurve);
 
-  console.log('Curva de Mana Calculada (sem terrenos):', manaCurve);
+  const typeCounts = deck.reduce((acc, entry) => {
+    const typeLine = entry.card.type_line;
+    const primaryType = typeLine.split(' - ')[0];
+    const quantity = entry.quantity;
+
+    if (!acc[primaryType]) {
+      acc[primaryType] = 0;
+    }
+    acc[primaryType] += quantity;
+
+    return acc;
+  }, {});
+  console.log('Contagem de Tipos Calculada:', typeCounts);
 
   const handleAddCard = (cardToAdd) => {
     const isBasicLand = cardToAdd.type_line.includes('Basic Land');
@@ -99,7 +112,7 @@ function App() {
       <CardSearch onCardAdd={handleAddCard} />
       <hr className={styles.divider} />
       
-      <DeckStats manaCurve={manaCurve} />
+      <DeckStats manaCurve={manaCurve} typeCounts={typeCounts}/>
       <hr className={styles.divider} />
 
       <DeckList 

@@ -1,6 +1,6 @@
 import styles from './DeckStats.module.css';
 
-function DeckStats({ manaCurve }) {
+function DeckStats({ manaCurve, typeCounts }) {
   const sortedCosts = Object.keys(manaCurve).sort((a, b) => a - b);
 
   if (sortedCosts.length === 0) {
@@ -29,6 +29,17 @@ function DeckStats({ manaCurve }) {
             Custo {cmc}: <strong>{manaCurve[cmc]}</strong>
           </span>
         ))}
+      </div>
+      <div className={styles.typeCountsContainer}>
+        <h3>Tipos de Carta</h3>
+        <div className={styles.typeList}>
+          {Object.keys(typeCounts).sort().map(type => (
+            <div key={type} className={styles.typeItem}>
+              <span>{type}:</span>
+              <strong>{typeCounts[type]}</strong>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

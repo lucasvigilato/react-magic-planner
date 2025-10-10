@@ -66,3 +66,35 @@
   border-radius: 4px;
   white-space: nowrap;
 }
+
+.typeCountsContainer {
+  margin-top: 25px;
+  border-top: 2px solid #dee2e6;
+  padding-top: 20px;
+}
+
+.typeCountsContainer h3 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #495057;
+  font-weight: 500;
+}
+
+.typeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.typeItem {
+  display: flex;
+  justify-content: space-between;
+  width: 220px;
+  background-color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #e9ecef;
+  font-size: 15px;
+}
