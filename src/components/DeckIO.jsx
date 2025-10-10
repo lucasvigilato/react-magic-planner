@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import styles from './DeckIO.module.css';
 
@@ -18,7 +19,7 @@ function DeckIO({ deck, onImportDeck }) {
             .join('\n');
 
         navigator.clipboard.writeText(deckAsText).then(() => {
-            alert('Deck copiado para a área de transferência!');
+            toast.success('Deck copiado para a área de transferência!');
         }).catch(err => {
             console.error('Erro ao copiar para a área de transferência:', err);
             alert('Não foi possível copiar o deck. Verifique as permissões do navegador.');
@@ -51,13 +52,29 @@ function DeckIO({ deck, onImportDeck }) {
 
             const resolvedCards = await Promise.all(promises);
 
-            const newDeck = resolvedCards.map((cardData, index) => {
-                const originalLine = lines[index];
-                const quantity = parseInt(originalLine.match(/^(\d+)/)[0], 10);
-                return { card: cardData, quantity: quantity };
-            });
+            const consolidatedDeck = resolvedCards.reduce((acc, cardData, index) => {
+                const quantity = parseInt(lines[index].match(/^(\d+)/)[0], 10);
+                const isBasicLand = cardData.type_line.includes('Basic Land');
+                let existingEntry;
 
-            onImportDeck(newDeck);
+                if (isBasicLand) {
+                    existingEntry = acc.find(entry =>
+                        entry.card.type_line.includes('Basic Land') && entry.card.name === cardData.name
+                    );
+                } else {
+                    existingEntry = acc.find(entry => entry.card.id === cardData.id);
+                }
+
+                if (existingEntry) {
+                    existingEntry.quantity += quantity;
+                } else {
+                    acc.push({ card: cardData, quantity: quantity});
+                }
+
+                return acc;
+            }, []);
+
+            onImportDeck(consolidatedDeck);
             setImportText('');
             setError(null);
 
