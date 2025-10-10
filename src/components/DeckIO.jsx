@@ -10,7 +10,7 @@ function DeckIO({ deck, onImportDeck }) {
 
     const handleExport = () => {
         if (deck.length ===0) {
-            alert('O deck está vazio. Adicione cartas para exportar.');
+            toast.info('O deck está vazio. Adicione cartas para exportar.');
             return;
         }
 
@@ -22,14 +22,14 @@ function DeckIO({ deck, onImportDeck }) {
             toast.success('Deck copiado para a área de transferência!');
         }).catch(err => {
             console.error('Erro ao copiar para a área de transferência:', err);
-            alert('Não foi possível copiar o deck. Verifique as permissões do navegador.');
+            toast.error('Não foi possível copiar o deck. Verifique as permissões do navegador.');
         });
 
     };
 
     const handleImport = async () => {
         if (!importText.trim()) {
-            alert('Por favor, cole uma lista de deck na caixa de texto');
+            toast.info('Por favor, cole uma lista de deck na caixa de texto');
             return;
         }
 
@@ -80,7 +80,7 @@ function DeckIO({ deck, onImportDeck }) {
 
         } catch (err) {
             setError(err.message);
-            alert(`Erro na importação: ${err.message}`);
+            toast.error(`Erro na importação: ${err.message}`);
         } finally {
             setIsImporting(false);
         }

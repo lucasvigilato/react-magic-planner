@@ -1,5 +1,6 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import DeckStats from './components/DeckStats';
 import CardSearch from './components/CardSearch';
@@ -68,7 +69,7 @@ function App() {
       const existingCardEntry = deck.find(entry => entry.card.id === cardToAdd.id);
 
       if (existingCardEntry) {
-        alert(`${cardToAdd.name} já está no seu deck (limite de 1 para não-básicos).`);
+        toast.warn(`${cardToAdd.name} já está no seu deck (limite de 1 para não-básicos).`);
       } else {
         setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1}]);
       }
@@ -88,7 +89,7 @@ function App() {
           const isBasicLand = entry.card.type_line.includes('Basic Land');
 
           if (!isBasicLand && action === 'increment') {
-            alert(`Apenas 1 cópia de ${entry.card.name} é permitida.`);
+            toast.warn(`Apenas 1 cópia de ${entry.card.name} é permitida.`);
             return entry;
           }
           const newQuantity = action === 'increment'
