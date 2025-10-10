@@ -1,6 +1,6 @@
 import styles from './DeckList.module.css';
 
-function DeckList({ deck, onRemoveCard, onUpdateQuantity }) {
+function DeckList({ deck, onRemoveCard, onUpdateQuantity, onMouseEnterCard, onMouseLeaveCard }) {
   return (
     <div>
       <h2>Meu Deck ({deck.length})</h2>
@@ -14,7 +14,10 @@ function DeckList({ deck, onRemoveCard, onUpdateQuantity }) {
               : entry.card.card_faces[0].image_uris.small;
 
             return (
-            <div key={entry.card.id} className={styles.cardItem}>
+            <div key={entry.card.id}
+            className={styles.cardItem}
+            onMouseEnter={() => onMouseEnterCard(entry.card)}
+            onMouseLeave={onMouseLeaveCard}>
               <img
                 src={imageUrl}
                 alt={entry.card.name}

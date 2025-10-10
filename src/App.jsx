@@ -6,6 +6,7 @@ import DeckStats from './components/DeckStats';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
 import DeckIO from './components/DeckIO';
+import CardViewer from './components/CardViewer';
 import styles from './App.module.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   };
 
   const [deck, setDeck] = useState(getInitialDeck());
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('magicDeck', JSON.stringify(deck));
@@ -112,11 +114,21 @@ function App() {
 
   const handleSetDeck = (newDeck) => {
     setDeck(newDeck);
-  }
+  };
+
+  const handleMouseEnterCard = (card) => {
+    setHoveredCard(card);
+  };
+
+  const handleMouseLeaveCard = () => {
+    setHoveredCard(null);
+  };
 
   return (
     <div className={styles.appContainer}>
       <h1 className={styles.mainTitle}>Magic Planner</h1>
+
+      <CardViewer card={hoveredCard} />
 
       <DeckIO deck={deck} onImportDeck={handleSetDeck} />
       
@@ -130,6 +142,8 @@ function App() {
         deck={deck}
         onRemoveCard={handleRemoveCard}
         onUpdateQuantity={handleUpdateQuantity}
+        onMouseEnterCard={handleMouseEnterCard}
+        onMouseLeaveCard={handleMouseLeaveCard}
       />
       <ToastContainer autoClose={3000} hideProgressBar />
     </div>
