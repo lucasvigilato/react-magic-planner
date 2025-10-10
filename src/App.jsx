@@ -1,9 +1,10 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
 import DeckStats from './components/DeckStats';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
 import DeckIO from './components/DeckIO';
-
 import styles from './App.module.css';
 
 function App() {
@@ -52,16 +53,25 @@ function App() {
 
   const handleAddCard = (cardToAdd) => {
     const isBasicLand = cardToAdd.type_line.includes('Basic Land');
-    const existingCardEntry = deck.find(entry => entry.card.id === cardToAdd.id);
 
-    if (existingCardEntry) {
-      if (isBasicLand) {
-        handleUpdateQuantity(cardToAdd.id, 'increment');
+    if (isBasicLand) {
+      const existingBasicLand = deck.find(entry =>
+        entry.card.type_line.includes('Basic Land') && entry.card.name === cardToAdd.name
+      );
+
+      if (existingBasicLand) {
+        handleUpdateQuantity(existingBasicLand.card.id, 'increment');
       } else {
-        alert(`${cardToAdd.name} ja está no seu deck (limite de 1 para não-básicos).`);
+        setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1}]);
       }
     } else {
-      setDeck(currentDeck => [...currentDeck, {card: cardToAdd, quantity: 1}]);
+      const existingCardEntry = deck.find(entry => entry.card.id === cardToAdd.id);
+
+      if (existingCardEntry) {
+        alert(`${cardToAdd.name} já está no seu deck (limite de 1 para não-básicos).`);
+      } else {
+        setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1}]);
+      }
     }
   };
 
@@ -120,6 +130,7 @@ function App() {
         onRemoveCard={handleRemoveCard}
         onUpdateQuantity={handleUpdateQuantity}
       />
+      <ToastContainer autoClose={3000} hideProgressBar />
     </div>
   );
 }
