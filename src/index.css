@@ -1,0 +1,35 @@
+/* Tema claro padrão */
+:root {
+  --cor-fundo-principal: #F8F9FA;
+  --cor-fundo-secundario: #FFFFFF;
+  --cor-texto-principal: #212529;
+  --cor-texto-secundario: #6C757D;
+  --cor-borda: #DEE2E6;
+
+  --cor-primaria: #FCA311;
+  --cor-sucesso: #28a745;
+  --cor-perigo: #dc3545;
+}
+
+/* tema escuro */
+[data-theme='dark'] {
+  --cor-fundo-principal: #121212;
+  --cor-fundo-secundario: #1E1E1E;
+  --cor-texto-principal: #E0E0E0;
+  --cor-texto-secundario: #888888;
+  --cor-borda: #333333;
+}
+
+/* estilos globais */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: var(--cor-fundo-principal);
+  color: var(--cor-texto-principal);
+  transition: background-color 0.2s, color 0.2s;
+}

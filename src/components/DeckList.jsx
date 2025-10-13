@@ -28,9 +28,9 @@ const TagInput = ({ cardId, onAddTag }) => {
 function DeckList({ deck, onRemoveCard, onUpdateQuantity, onMouseEnterCard, onMouseLeaveCard, onAddTag, onRemoveTag }) {
   return (
     <div>
-      <h2>Meu Deck ({deck.length})</h2>
+      <h2 className={styles.title}>Meu Deck ({deck.length})</h2>
       {deck.length === 0 ? (
-        <p>Seu deck está vazio. Adicione cartas acima!</p>
+        <p className={styles.emptyMessage}>Seu deck está vazio. Adicione cartas acima!</p>
       ) : (
         <div className={styles.deckList}>
           {deck.map(entry => {

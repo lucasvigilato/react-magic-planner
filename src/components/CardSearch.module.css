@@ -1,49 +1,51 @@
-.search.Container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    align-items: center;
+.searchContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
 }
 
 .searchInput {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-fundo-principal);
+  color: var(--cor-texto-principal);
+  border-radius: 4px;
+  flex-grow: 1;
 }
 
 .searchButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #121212;
+  background-color: var(--cor-primaria);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: filter 0.2s;
 }
 
 .searchButton:hover {
-    background-color: #0056b3;
+  filter: brightness(0.9); 
 }
 
 .searchButton:disabled {
-    background-color: #999;
-    cursor: not-allowed;
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 .resultContainer {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .cardImage {
-    max-width: 300px;
-    border-radius: 15px;
-    margin-bottom: 15px;
+  max-width: 300px;
+  border-radius: 15px;
+  margin-bottom: 15px;
 }
 
 .addButton {
-    composes: searchButton;
+  composes: searchButton;
 }

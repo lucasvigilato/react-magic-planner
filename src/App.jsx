@@ -17,6 +17,20 @@ function App() {
   };
 
   const [deck, setDeck] = useState(getInitialDeck());
+
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme || 'light';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
+  }
+
   const [hoveredCard, setHoveredCard] = useState(null);
 
   useEffect(() => {
@@ -153,8 +167,13 @@ function App() {
   };
 
   return (
-    <div className={styles.appContainer}>
-      <h1 className={styles.mainTitle}>Magic Planner</h1>
+    <div className={styles.appContainer} data-theme={theme}>
+      <div className={styles.header}>
+        <h1 className={styles.mainTitle}>Magic Planner</h1>
+        <button onClick={toggleTheme} className={styles.themeToggle}>
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
+    </div>
 
       <CardViewer card={hoveredCard} />
 

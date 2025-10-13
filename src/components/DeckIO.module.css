@@ -1,94 +1,50 @@
 .ioContainer {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
+  background-color: var(--cor-fundo-principal);
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .ioButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    background-color: #28a745;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  background-color: var(--cor-sucesso);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: filter 0.2s;
 }
 
-ioButton:hover {
-    background-color: #218838;
+.ioButton:hover {
+  filter: brightness(0.9);
 }
 
 .textArea {
-    width: 100%;
-    min-height: 100px;
-    padding: 10px;
-    font-family: monospace;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-fundo-principal);
+  color: var(--cor-texto-principal);
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 
 .errorMessage {
-    color: #dc3545;
-    font-weight: 500;
-    margin-top: 15px;
-    text-align: center;
+  color: var(--cor-perigo);
+  font-weight: 500;
+  margin-top: 15px;
+  text-align: center;
 }
 
-.tagList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
-    margin-top: 10px;
-    min-height: 25px;
-}
-
-.tag {
-    display: inline-flex;
-    align-items: center;
-    background-color: #6c757d;
-    color: white;
-    padding: 3px 8px;
-    font-size: 12px;
-    border-radius: 12px;
-}
-
-.tag button {
-    background: none;
-    border: none;
-    color: white;
-    margin-left: 4px;
-    padding: 0;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 1;
-}
-
-.tag button:hover {
-    color: #ffc107;
-}
-
-.tagInput {
-    width: 90%;
-    margin-top: 10px;
-    padding: 5px;
-    font-size: 12px;
-    border: 1px dashed #ccc;
-    border-radius: 4px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.tagInput:focus {
-    outline: 2px solid #0d6efd;
-    border-style: solid;
+.title {
+  color: var(--cor-texto-principal);
 }
