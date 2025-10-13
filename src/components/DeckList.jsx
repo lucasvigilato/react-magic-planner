@@ -1,6 +1,31 @@
+import { useState } from 'react';
 import styles from './DeckList.module.css';
 
-function DeckList({ deck, onRemoveCard, onUpdateQuantity, onMouseEnterCard, onMouseLeaveCard }) {
+const TagInput = ({ cardId, onAddTag }) => {
+  const [tagText, setTagText] = useState('');
+
+  const handleKeyDown = (event) => {
+
+    if (event.key === 'Enter' && tagText.trim() !== '') {
+      event.preventDefault();
+      onAddTag(cardId, tagText);
+      setTagText('');
+    }
+  };
+
+  return (
+    <input
+      type='text'
+      className={styles.tagInput}
+      value={tagText}
+      onChange={(e) => setTagText(e.target.value)}
+      onKeyDown={handleKeyDown}
+      placeholder='Add tag + Enter'
+    />
+  );
+};
+
+function DeckList({ deck, onRemoveCard, onUpdateQuantity, onMouseEnterCard, onMouseLeaveCard, onAddTag, onRemoveTag }) {
   return (
     <div>
       <h2>Meu Deck ({deck.length})</h2>
@@ -39,6 +64,15 @@ function DeckList({ deck, onRemoveCard, onUpdateQuantity, onMouseEnterCard, onMo
                     className={styles.removeButton}
                   >X</button>
                 </div>
+                <div className={styles.tagList}>
+                  {entry.tags.map(tag => (
+                    <span key={tag} className={styles.tag}>
+                      {tag}
+                      <button onClick={() => onRemoveTag(entry.card.id, tag)}>X</button>
+                    </span>
+                  ))}
+                </div>
+                <TagInput cardId={entry.card.id} onAddTag={onAddTag} />
               </div>
             </div>
             );

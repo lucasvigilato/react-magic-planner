@@ -68,7 +68,7 @@ function DeckIO({ deck, onImportDeck }) {
                 if (existingEntry) {
                     existingEntry.quantity += quantity;
                 } else {
-                    acc.push({ card: cardData, quantity: quantity});
+                    acc.push({ card: cardData, quantity: quantity, tags: []});
                 }
 
                 return acc;

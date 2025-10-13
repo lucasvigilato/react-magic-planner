@@ -65,7 +65,7 @@ function App() {
       if (existingBasicLand) {
         handleUpdateQuantity(existingBasicLand.card.id, 'increment');
       } else {
-        setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1}]);
+        setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1, tags: []}]);
       }
     } else {
       const existingCardEntry = deck.find(entry => entry.card.id === cardToAdd.id);
@@ -73,7 +73,7 @@ function App() {
       if (existingCardEntry) {
         toast.warn(`${cardToAdd.name} já está no seu deck (limite de 1 para não-básicos).`);
       } else {
-        setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1}]);
+        setDeck(currentDeck => [...currentDeck, { card: cardToAdd, quantity: 1, tags: []}]);
       }
     }
   };
@@ -124,6 +124,34 @@ function App() {
     setHoveredCard(null);
   };
 
+  const handleAddTagToCard = (cardId, tagName) => {
+    if (!tagName.trim()) return;
+
+    setDeck(currentDeck =>
+      currentDeck.map(entry => {
+        if (entry.card.id === cardId) {
+          if (entry.tags.includes(tagName.trim())) {
+            return entry;
+          }
+
+          return { ...entry, tags: [...entry.tags, tagName.trim()] };
+        }
+        return entry;
+      })
+    );
+  };
+
+  const handleRemoveTagFromCard = (cardId, tagName) => {
+    setDeck(currentDeck =>
+      currentDeck.map(entry => {
+        if (entry.card.id === cardId) {
+          return { ...entry, tags: entry.tags.filter(tag => tag !== tagName) };
+        }
+        return entry;
+      })
+    );
+  };
+
   return (
     <div className={styles.appContainer}>
       <h1 className={styles.mainTitle}>Magic Planner</h1>
@@ -142,6 +170,8 @@ function App() {
         deck={deck}
         onRemoveCard={handleRemoveCard}
         onUpdateQuantity={handleUpdateQuantity}
+        onAddTag={handleAddTagToCard}
+        onRemoveTag={handleRemoveTagFromCard}
         onMouseEnterCard={handleMouseEnterCard}
         onMouseLeaveCard={handleMouseLeaveCard}
       />
