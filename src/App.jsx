@@ -1,6 +1,6 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DeckStats from './components/DeckStats';
 import CardSearch from './components/CardSearch';
 import DeckList from './components/DeckList';
@@ -11,7 +11,7 @@ import DeckManager from './components/DeckManager';
 
 function App() {
 
-
+  const isInitialMount = useRef(true);
   const [allDecks, setAllDecks] = useState({});
   const [activeDeckName, setActiveDeckName] = useState(null);
 
@@ -46,8 +46,43 @@ function App() {
   }, [theme]);
   
   useEffect(() => {
-    localStorage.setItem('magicDecks', JSON.stringify(allDecks));
-  }, [allDecks]);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    if (!activeDeckName || !allDecks[activeDeckName]) return;
+
+    const saveDeck = async () => {
+      const deckContents = allDecks[activeDeckName];
+      console.log(`Salvando deck '${activeDeckName}' no backend...`);
+
+      if (!deckContents) {
+        console.warn('Tentativa de salvar um deck que não existe no estado. Abortando.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:3001/decks/${encodeURIComponent(activeDeckName)}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cards: deckContents }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Falha ao salvar o deck no servidor.');
+        }
+      } catch (error) {
+        console.error('Erro ao salvar o deck:', error);
+        toast.error(`Não foi possível salvar as alterações no deck '${activeDeckName}'.`);
+      }
+    };
+
+    saveDeck();
+
+  }, [allDecks, activeDeckName]);
 
   useEffect(() => {
     const fetchDecks = async () => {
