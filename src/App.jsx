@@ -163,6 +163,10 @@ function App() {
         });
 
         if (!response.ok) {
+          if (response.status === 409) {
+            const errorData = await response.json();
+            throw new Error(errorData.error);
+          }
           throw new Error('Falha ao criar o deck no servidor.');
         }
 
@@ -173,9 +177,10 @@ function App() {
         }));
         setActiveDeckName(savedDeck.name);
         toast.success(`Deck '${savedDeck.name}' criado com sucesso!`);
+
       } catch (error) {
-        console.error('Erro ao comunicar com o servidor:', error);
-        toast.error('Não foi possível salvar o deck. O servidor está no ar?');
+        console.error('Erro ao criar deck', error.message);
+        toast.error(error.message);
       }
     } else if (newDeckName) {
       toast.error(`Um deck com o nome '${newDeckName}' já existe.`);
@@ -186,18 +191,34 @@ function App() {
     setActiveDeckName(deckName);
   };
 
-  const handleDeleteDeck = (deckNameToDelete) => {
+  const handleDeleteDeck = async (deckNameToDelete) => {
     if (window.confirm(`Tem certeza que deseja deletar o deck '${deckNameToDelete}'?`)) {
-      setAllDecks(currentAllDecks => {
-        const newAllDecks = { ...currentAllDecks };
-        delete newAllDecks[deckNameToDelete];
-        return newAllDecks;
-      });
-      if (activeDeckName === deckNameToDelete) {
-        const remainingDeckNames = Object.keys(allDecks).filter(name => name !== deckNameToDelete);
-        setActiveDeckName(remainingDeckNames[0] || null);
+      try {
+        const response = await fetch(`http://localhost:3001/decks/${encodeURIComponent(deckNameToDelete)}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error('Falha ao deletar o deck no servidor.');
+        }
+
+        setAllDecks(currentAllDecks => {
+          const newAllDecks = { ...currentAllDecks };
+          delete newAllDecks[deckNameToDelete];
+          return newAllDecks;
+        });
+
+        if (activeDeckName === deckNameToDelete) {
+          const remainingDecknames = Object.keys(allDecks).filter(name => name !== deckNameToDelete);
+          setActiveDeckName(remainingDecknames[0] || null);
+        }
+
+        toast.info(`Deck '${deckNameToDelete}' deletado com sucesso!`);
+
+      } catch (error) {
+        console.error('Erro ao deletar o deck', error);
+        toast.error('Não foi possível deletar o deck');
       }
-      toast.info(`Deck '${deckNameToDelete}' deletado.`);
     }
   };
 
