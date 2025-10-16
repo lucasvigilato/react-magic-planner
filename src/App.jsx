@@ -10,17 +10,10 @@ import styles from './App.module.css';
 import DeckManager from './components/DeckManager';
 
 function App() {
-  const getInitialDecks = () => {
-    const savedDecks = localStorage.getItem('magicDecks');
-    if (savedDecks && Object.keys(JSON.parse(savedDecks)).length > 0) {
-      return JSON.parse(savedDecks);
-    }
-    return { "Meu Primeiro Deck": [] };
-  };
 
-  const initialDecks = getInitialDecks();
-  const [allDecks, setAllDecks] = useState(initialDecks);
-  const [activeDeckName, setActiveDeckName] = useState(Object.keys(initialDecks)[0]);
+
+  const [allDecks, setAllDecks] = useState({});
+  const [activeDeckName, setActiveDeckName] = useState(null);
 
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -55,6 +48,47 @@ function App() {
   useEffect(() => {
     localStorage.setItem('magicDecks', JSON.stringify(allDecks));
   }, [allDecks]);
+
+  useEffect(() => {
+    const fetchDecks = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/decks');
+        if (!response.ok) {
+          throw new Error('Falha ao buscar decks do servidor.');
+        }
+        const decksFromDB = await response.json();
+
+        const decksObject = decksFromDB.reduce((acc, deck) => {
+          const cardsToFormat = deck.cards || [];
+          
+          const formattedCards = cardsToFormat.map(card => ({
+            card: {
+              id: card.scryfallId,
+              name: card.name,
+              type_line: card.type_line,
+              cmc: card.cmc,
+              image_uris: card.image_uris,
+          },
+        quantity: card.quantity,
+        tags: []
+        }));
+
+          acc[deck.name] = formattedCards;
+          return acc;
+        }, {});
+
+        setAllDecks(decksObject);
+        if (decksFromDB.length > 0) {
+          setActiveDeckName(decksFromDB[0].name);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar decks', error);
+        toast.error('Não foi possível carregar os decks do servidor');
+      }
+    };
+
+    fetchDecks();
+  }, []);
 
   const toggleTheme = () => {
     setTheme(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
