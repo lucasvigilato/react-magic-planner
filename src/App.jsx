@@ -146,15 +146,37 @@ function App() {
     setActiveDeckName(nameToUpdate);
   };
 
-  const handleCreateDeck = () => {
+  const handleCreateDeck = async () => {
     const newDeckName = prompt('Digite o nome do novo deck:');
+
     if (newDeckName && !allDecks[newDeckName]) {
-      setAllDecks(currentAllDecks => ({
-        ...currentAllDecks,
-        [newDeckName]: []
-      }));
-      setActiveDeckName(newDeckName);
-      toast.success(`Deck '${newDeckName}' criado com sucesso!`);
+      try {
+        const response = await fetch('http://localhost:3001/decks', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: newDeckName,
+            cards: []
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Falha ao criar o deck no servidor.');
+        }
+
+        const savedDeck = await response.json();
+        setAllDecks(currentAllDecks => ({
+          ...currentAllDecks,
+          [savedDeck.name]: []
+        }));
+        setActiveDeckName(savedDeck.name);
+        toast.success(`Deck '${savedDeck.name}' criado com sucesso!`);
+      } catch (error) {
+        console.error('Erro ao comunicar com o servidor:', error);
+        toast.error('Não foi possível salvar o deck. O servidor está no ar?');
+      }
     } else if (newDeckName) {
       toast.error(`Um deck com o nome '${newDeckName}' já existe.`);
     }
