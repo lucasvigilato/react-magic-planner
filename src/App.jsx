@@ -24,7 +24,7 @@ function App() {
 
   const deck = allDecks[activeDeckName] || [];
 
-  const manaCurve = deck.filter(entry => !entry.card.type_line.includes('Land')).reduce((acc, entry) => {
+  const manaCurve = deck.filter(entry => entry.card && entry.card.type_line && !entry.card.type_line.includes('Land')).reduce((acc, entry) => {
     const cmc = Math.floor(entry.card.cmc);
     const quantity = entry.quantity;
     if (!acc[cmc]) { acc[cmc] = 0; }
@@ -33,7 +33,7 @@ function App() {
   }, {});
 
   const typeCounts = deck.reduce((acc, entry) => {
-    const typeLine = entry.card.type_line;
+    const typeLine = entry.card?.type_line || '';
     const primaryType = typeLine.split(' — ')[0];
     const quantity = entry.quantity;
     if (!acc[primaryType]) { acc[primaryType] = 0; }
@@ -102,7 +102,7 @@ function App() {
               name: card.name,
               type_line: card.type_line,
               cmc: card.cmc,
-              image_uris: card.image_uris,
+              image_uris: JSON.parse(card.image_uris || '{}'),
           },
         quantity: card.quantity,
         tags: []
