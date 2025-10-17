@@ -105,7 +105,7 @@ function App() {
               image_uris: JSON.parse(card.image_uris || '{}'),
           },
         quantity: card.quantity,
-        tags: []
+        tags: card.tags.map(tag => tag.name) || []
         }));
 
           acc[deck.name] = formattedCards;
