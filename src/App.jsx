@@ -97,6 +97,7 @@ function App() {
           const cardsToFormat = deck.cards || [];
           
           const formattedCards = cardsToFormat.map(card => ({
+            
             card: {
               id: card.scryfallId,
               name: card.name,
